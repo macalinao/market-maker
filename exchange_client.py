@@ -27,7 +27,7 @@ class ExchangeClient(object):
                           "order_id": order_id,
                           "security": security,
                           "direction": direction,
-                          "price": price
+                          "price": price,
                           "quantity": quantity})
         send(msg)
 
