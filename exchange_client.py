@@ -38,3 +38,6 @@ class ExchangeClient(object):
 
     def send(self, msg):
         pass
+
+    def on_message(self, cb):
+        pass
