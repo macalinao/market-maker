@@ -25,6 +25,7 @@ class Exchange(object):
         self.subscribers = {}
 
         client.on_message(self._handle_message)
+        self.on('book', self._handle_book)
 
     def place_order(self, order):
         self.orders[order.order_id] = order
@@ -34,6 +35,11 @@ class Exchange(object):
         else:
             self.client.market(order.order_id, order.security, order.direction, order.quantity)
 
+    def on(self, message_type, cb):
+        if not message_type in self.subscribers:
+            self.subscribers[message_type] = []
+        self.subscribers[message_type].append(cb)
+
     def _handle_message(self, message):
         """Handles incoming messages."""
         t = message['type']
@@ -42,3 +48,6 @@ class Exchange(object):
         subs = self.subscribers[t]
         for sub in subs:
             sub(parse_message(message))
+
+    def _handle_book(self, book):
+        self.book = book

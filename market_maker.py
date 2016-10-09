@@ -6,6 +6,8 @@ class MarketMaker(object):
     def __init__(self, exchange):
         self.exchange = exchange
 
+        exchange.on('out', self._handle_out)
+
     def init_market(self, security, max_bid, min_ask):
         """Setup the initial order book."""
         spread = min_ask - max_bid
@@ -23,6 +25,10 @@ class MarketMaker(object):
                 security, "sell", 100, min_ask + x * step,
             )
             self.exchange.place_order(ask)
+
+    def _handle_out(self, out):
+        order = self.exchange.orders[out['order_id']]
+        book = self.exchange.book
 
 def main():
     client = ExchangeClient()
