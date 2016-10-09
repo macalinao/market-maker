@@ -16,7 +16,7 @@ class MarketMaker(object):
         # for every step, we will put in 100 limit orders.
         step = int(spread / 5)
 
-        for x in xrange(10):
+        for x in range(10):
             bid = Order(
                 security, "buy", 100, max_bid - x * step,
             )
