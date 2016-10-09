@@ -4,24 +4,37 @@ class ExchangeClient(object):
     """
     Client for exchange.
     """
-    def __init__(self):
-        pass
+    name = ""
+
+    def __init__(self, name):
+        self.name = name
 
     def handshake(self):
-        pass
+        msg = json.dumps({"type": "handshake",
+                          "name": self.name})
+        send(msg)
 
     def market(self, order_id, security, direction, quantity):
-        pass
+        msg = json.dumps({"type": "market",
+                          "order_id": order_id,
+                          "security": security,
+                          "direction": direction,
+                          "quantity": quantity})
+        send(msg)
 
     def limit(self, order_id, security, direction, price, quantity):
-        pass
+        msg = json.dumps({"type": "limit",
+                          "order_id": order_id,
+                          "security": security,
+                          "direction": direction,
+                          "price": price
+                          "quantity": quantity})
+        send(msg)
 
     def cancel(self, order_id):
-        pass
+        msg = json.dumps({"type": "cancel",
+                          "order_id": order_id})
+        send(msg)
 
-    def _handle_message(self, msg):
-        data = json.loads(msg)
-        # TODO(igm): handle message
-
-    def on_message(self, cb):
+    def send(self, msg):
         pass
