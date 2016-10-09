@@ -31,7 +31,7 @@ class MarketMaker(object):
         book = self.exchange.book
 
 def main():
-    client = ExchangeClient()
+    client = ExchangeClient('god')
     client.handshake()
 
     exchange = Exchange(client)
