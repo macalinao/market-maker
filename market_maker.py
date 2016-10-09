@@ -1,6 +1,3 @@
-from exchange import Exchange, Order
-from exchange_client import ExchangeClient
-
 class MarketMaker(object):
 
     def __init__(self, exchange):
@@ -17,25 +14,13 @@ class MarketMaker(object):
         step = int(spread / 5)
 
         for x in range(10):
-            bid = Order(
+            self.exchange.place_order(
                 security, "buy", 100, max_bid - x * step,
             )
-            self.exchange.place_order(bid)
-            ask = Order(
+            self.exchange.place_order(
                 security, "sell", 100, min_ask + x * step,
             )
-            self.exchange.place_order(ask)
 
     def _handle_out(self, out):
         order = self.exchange.orders[out['order_id']]
         book = self.exchange.book
-
-def main():
-    client = ExchangeClient('god')
-    client.handshake()
-
-    exchange = Exchange(client)
-    mm = MarketMaker(exchange)
-    mm.init_market("IAN", 5100, 5200)
-
-main()

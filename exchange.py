@@ -27,7 +27,8 @@ class Exchange(object):
         client.on_message(self._handle_message)
         self.on('book', self._handle_book)
 
-    def place_order(self, order):
+    def place_order(self, security, direction, amount, price=None):
+        order = Order(security, direction, amount, price)
         self.orders[order.order_id] = order
         # Place order using exchange client
         if order.is_limit():
