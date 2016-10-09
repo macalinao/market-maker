@@ -1,6 +1,6 @@
 import json
 
-def ExchangeClient(object):
+class ExchangeClient(object):
     """
     Client for exchange.
     """
