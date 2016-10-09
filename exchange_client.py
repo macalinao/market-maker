@@ -12,7 +12,7 @@ class ExchangeClient(object):
     def handshake(self):
         msg = json.dumps({"type": "handshake",
                           "name": self.name})
-        send(msg)
+        self.send(msg)
 
     def market(self, order_id, security, direction, quantity):
         msg = json.dumps({"type": "market",
@@ -20,21 +20,21 @@ class ExchangeClient(object):
                           "security": security,
                           "direction": direction,
                           "quantity": quantity})
-        send(msg)
+        self.send(msg)
 
     def limit(self, order_id, security, direction, price, quantity):
         msg = json.dumps({"type": "limit",
                           "order_id": order_id,
                           "security": security,
                           "direction": direction,
-                          "price": price
+                          "price": price,
                           "quantity": quantity})
-        send(msg)
+        self.send(msg)
 
     def cancel(self, order_id):
         msg = json.dumps({"type": "cancel",
                           "order_id": order_id})
-        send(msg)
+        self.send(msg)
 
     def send(self, msg):
         pass
