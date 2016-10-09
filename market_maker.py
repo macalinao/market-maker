@@ -14,14 +14,13 @@ class MarketMaker(object):
         step = spread / 5
 
         for x in xrange(10):
-            cid = "init-bid-{0}".format(x)
+            bid_id = "init-bid-{0}".format(x)
             price = max_bid - x * step
-            self.client.limit(cid, security, "buy", price, 100)
+            self.client.limit(bid_id, security, "buy", price, 100)
 
-        for x in xrange(10):
-            cid = "init-ask-{0}".format(x)
+            ask_id = "init-ask-{0}".format(x)
             price = min_ask + x * step
-            self.client.limit(cid, security, "sell", price, 100)
+            self.client.limit(ask_id, security, "sell", price, 100)
 
 def main():
     client = ExchangeClient()
