@@ -23,5 +23,5 @@ class ExchangeClient(object):
         data = json.loads(msg)
         # TODO(igm): handle message
 
-    def on(self, msg_type, cb):
+    def on_message(self, cb):
         pass

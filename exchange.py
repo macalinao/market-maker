@@ -1,5 +1,8 @@
 import uuid
 
+def parse_message(message):
+    return message
+
 class Order(object):
 
     def __init__(self, security, direction, quantity, price=None):
@@ -18,6 +21,11 @@ class Exchange(object):
         self.client = client
         self.orders = {}
 
+        # Subscribers to different message types
+        self.subscribers = {}
+
+        client.on_message(self._handle_message)
+
     def place_order(self, order):
         self.orders[order.order_id] = order
         # Place order using exchange client
@@ -25,3 +33,12 @@ class Exchange(object):
             self.client.limit(order.order_id, order.security, order.direction, order.price, order.quantity)
         else:
             self.client.market(order.order_id, order.security, order.direction, order.quantity)
+
+    def _handle_message(self, message):
+        """Handles incoming messages."""
+        t = message['type']
+        if not t in self.subscribers:
+            return
+        subs = self.subscribers[t]
+        for sub in subs:
+            sub(parse_message(message))
