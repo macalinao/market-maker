@@ -1,5 +1,5 @@
 run:
-	python3 market_maker.py
+	python3 main.py
 
 test:
 	python3 -m unittest
