@@ -1,6 +1,8 @@
 import uuid
 
 def parse_message(message):
+    if message['type'] == 'book':
+        return Book(message)
     return message
 
 class Order(object):
@@ -14,6 +16,36 @@ class Order(object):
 
     def is_limit(self):
         return self.price is not None
+
+
+class Book(object):
+
+    def __init__(self, data):
+        self.timestamp = data['timestamp']
+        self.book = data['book']
+
+    def min_ask(self, security):
+        asks = self.book[security]['asks']
+        if not asks:
+            return None
+        return min([price for price, _ in asks])
+
+
+    def max_bid(self, security):
+        bids = self.book[security]['bids']
+        if not bids:
+            return None
+        return max([pq[0] for pq in bids])
+
+
+    def spread(self, security):
+        """Calculates the spread of a security."""
+        min_ask = self.min_ask(security)
+        max_bid = self.max_bid(security)
+        if min_ask is None or max_bid is None:
+            return None
+        return min_ask - max_bid
+
 
 class Exchange(object):
 
